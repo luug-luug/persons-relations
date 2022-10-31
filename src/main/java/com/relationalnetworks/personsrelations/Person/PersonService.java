@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @Service
@@ -34,4 +35,12 @@ public class PersonService {
         personRepository.save(person);
     };
 
+    public void addFriend(UUID id, UUID friendId) {
+        Set<Person> friends = personRepository.findById(id).get().getFriends();
+        friends.add(personRepository.findById(friendId).get());
+    }
+
+    public Set<Person> findAllFriends(UUID id) {
+        return personRepository.findById(id).get().getFriends();
+    }
 }

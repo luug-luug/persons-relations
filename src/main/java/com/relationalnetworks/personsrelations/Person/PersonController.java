@@ -1,9 +1,10 @@
-package Person;
+package com.relationalnetworks.personsrelations.Person;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
@@ -11,7 +12,7 @@ public class PersonController {
     @Autowired
     PersonService personService;
 
-    @RequestMapping("/hello")
+    @RequestMapping("/start")
     public String getStartPage() {
         return "Hello!";
     }
@@ -39,5 +40,14 @@ public class PersonController {
     @DeleteMapping("/persons/{id}")
     public void deletePerson(@PathVariable UUID id) {
         personService.deletePerson(id);
+    }
+
+    @PutMapping("persons/{id}/friends") //FIXME
+    public void addFriend(@PathVariable UUID id, @RequestBody UUID friendId) {
+        personService.addFriend(id, friendId);
+    }
+    @RequestMapping("persons/{id}/friends")
+    public Set<Person> findAllFriends(@PathVariable UUID id) {
+        return personService.findAllFriends(id);
     }
 }
